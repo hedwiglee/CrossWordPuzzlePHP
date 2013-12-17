@@ -23,11 +23,15 @@ if (!$con)
 mysql_select_db("test1", $con);
 mysql_query("SET NAMES UTF8",$con);
 $result=mysql_query("SELECT UserID,PassWord FROM USER WHERE UserID='".$qID."'",$con);
-if ($result!=NULL)
+if ($result!="")
 {
+	if (!mysql_num_rows($result))
+	{
+		echo "Wrong username!";
+	}
 	while($row = mysql_fetch_array($result))
 	{
-	  if ($row['UserID']!==NULL&&$row['PassWord']==$qPW)
+	  if ($row['UserID']==$qID&&$row['PassWord']==$qPW)
 	  {
 		  echo "Success!";
 	  }

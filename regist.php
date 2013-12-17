@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- TemplateBeginEditable name="doctitle" -->
-<title>无标题文档</title>
+<title></title>
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
@@ -16,10 +16,11 @@ $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
 $queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
+$urlquery = explode('&',$queryall[1]); 
 
-$qName=substr_replace($urlquery[0],'',0,5);
-$qScore=substr_replace($urlquery[1],'',0,6);
+$qID=substr_replace($urlquery[0],'',0,3);
+$qPW=substr_replace($urlquery[1],'',0,3);
+$qName=substr_replace($urlquery[2],'',0,5);
 
 $con=mysql_connect("localhost:3306","root","");
 if (!$con)
@@ -29,18 +30,23 @@ if (!$con)
 
 mysql_select_db("test1", $con);
 mysql_query("SET NAMES UTF8",$con);
-mysql_query("INSERT INTO SCORE (NAME,SCORE) VALUES ('".$qName."','".$qScore."')",$con);
-$result=mysql_query("SELECT NAME,SCORE FROM SCORE WHERE SCORE>".$qScore,$con);
-$jsonwithdot='';
-echo "{";
-while($row = mysql_fetch_array($result))
+$haveuserid=mysql_query("SELECT USERID FROM USER WHERE USERID='".$qID."'",$con);
+if (mysql_num_rows($haveuserid))
 {
-  $arr=array('NAME'=>$row['NAME'],'SCORE'=>$row['SCORE']);
-  $jsonstr=json_encode($arr);
-  $jsonwithdot=$jsonwithdot.preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $jsonstr).",";
-} 
-echo substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
-echo "}";
+	echo "Username exists!";
+}
+else
+{
+	$insert=mysql_query("INSERT INTO USER (UserID,PassWord,UserName) VALUES ('".$qID."','".$qPW."','".$qName."')",$con);
+	if ($insert)
+	{
+		echo "Successfully insert!";
+	}
+	else
+	{
+		echo "Error!";
+	}
+}
 mysql_close($con);
 
 ?>
