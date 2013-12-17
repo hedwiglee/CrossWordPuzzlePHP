@@ -12,6 +12,7 @@
 <body>
 
 <?php
+//regist.php?id=xxx&pw=xxx&name=xxx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
