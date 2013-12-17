@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-//url:overview.php?user=xxx&vol=xx&lv=xx
+//url:overview.php?user=xxx&vol=xx&lv=xx&type=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -14,6 +14,7 @@ $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并
 $qUser=substr_replace($urlquery[0],'',0,5);
 $qVol=substr_replace($urlquery[1],'',0,4);
 $qLv=substr_replace($urlquery[2],'',0,3);
+$qType=substr_replace($urlquery[3],'',0,5);
 
 $con=mysql_connect("localhost:3306","root","");
 if (!$con)
@@ -30,6 +31,7 @@ $result=mysql_query("SELECT UserID, Scores
 						WHERE CATEGORY =0
 						AND VOL =".$qVol."
 						AND LEVEL =".$qLv."
+						AND CATEGORY = ".$qType."
 						ORDER BY SCORES DESC 
 						LIMIT 0 , 5",$con);
 $jsonwithdot='';
@@ -52,6 +54,7 @@ $selfrank=mysql_query("SELECT COUNT( * ) COUNT
 						WHERE category =0
 						AND VOL =".$qVol."
 						AND LEVEL =".$qLv."
+						AND CATEGORY = ".$qType."
 						AND SCORES > ( 
 						SELECT SCORES
 						FROM SCORE
