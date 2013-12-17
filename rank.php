@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-//url:overview.php?user=xxx&vol=xx&lv=xx&type=xx
+//url:rank.php?user=xxx&vol=xx&lv=xx&type=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
