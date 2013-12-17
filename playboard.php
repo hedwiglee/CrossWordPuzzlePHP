@@ -4,17 +4,14 @@
 </head>
 <body>
 <?php
-//url:playboard.php?vol=xx&lv=xx
+//url:playboard.php?id=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
 $queryall=explode('?',$geturl);
 $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
 
-$qUser=substr_replace($urlquery[0],'',0,5);
-$qVol=substr_replace($urlquery[1],'',0,4);
-$qLv=substr_replace($urlquery[2],'',0,3);
-$qType=substr_replace($urlquery[3],'',0,5);
+$qID=substr_replace($urlquery[0],'',0,3);
 
 $con=mysql_connect("localhost:3306","root","");
 if (!$con)
@@ -26,46 +23,18 @@ mysql_select_db("test1", $con);
 mysql_query("SET NAMES UTF8",$con);
 
 //查询前五名
-$result=mysql_query("SELECT UserID, Scores
-						FROM SCORE
-						WHERE CATEGORY =0
-						AND VOL =".$qVol."
-						AND LEVEL =".$qLv."
-						AND CATEGORY = ".$qType."
-						ORDER BY SCORES DESC 
-						LIMIT 0 , 5",$con);
+$result=mysql_query("SELECT JSONDATA
+						FROM PLAYBOARD
+						WHERE UNIQUEID=".$qID , $con);
 $jsonwithdot='';
-echo "{top:[";
 while($row = mysql_fetch_array($result))
 {
-  $arr=array('ID'=>$row['UserID'],'SCORE'=>$row['Scores']);
+  $arr=array('JSONDATA'=>$row['JSONDATA']);
   $jsonstr=json_encode($arr);
-  $jsonwithdot=$jsonwithdot.$jsonstr.",";
+  $jsonwithdot=$jsonwithdot.preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $jsonstr).",";
 } 
-echo substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
-echo "],";
-
-
-//查询个人排名
-$selfrank=mysql_query("SELECT COUNT( * ) COUNT
-						FROM (
-						SELECT UserID, Scores
-						FROM SCORE
-						WHERE category =0
-						AND VOL =".$qVol."
-						AND LEVEL =".$qLv."
-						AND CATEGORY = ".$qType."
-						AND SCORES > ( 
-						SELECT SCORES
-						FROM SCORE
-						WHERE USERID =  '".$qUser."' ) 
-						ORDER BY SCORES DESC
-						) AS a",$con);
-while($rankrow = mysql_fetch_array($selfrank))
-{
-  echo "rank:".$rankrow['COUNT']."}";
-}
-
+$jsonwith=substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
+echo str_replace(' ','',str_replace('\"','"',str_replace('\n','',$jsonwith)));
 mysql_close($con);
 
 ?>
