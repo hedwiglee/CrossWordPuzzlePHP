@@ -13,13 +13,13 @@ $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并
 
 $qVol=substr_replace($urlquery[0],'',0,4);
 
-$con=mysql_connect("localhost:3306","root","");
+$con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
 {
 	die("Could not connect mysql".mysql_error());
 }
 
-mysql_select_db("test1", $con);
+mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
 $result=mysql_query("SELECT UniqueID
 						FROM playboard

@@ -12,7 +12,7 @@
 <body>
 
 <?php
-//sendscore.php?user=xx&score=xx&vol=xx&lv=xx&type=xx
+//sendscore.php?user=xx&score=xx&id=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -21,19 +21,17 @@ $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并
 
 $qUser=substr_replace($urlquery[0],'',0,5);
 $qScore=substr_replace($urlquery[1],'',0,6);
-$qVol=substr_replace($urlquery[2],'',0,4);
-$qLv=substr_replace($urlquery[3],'',0,3);
-$qType=substr_replace($urlquery[4],'',0,5);
+$qid=substr_replace($urlquery[2],'',0,3);
 
-$con=mysql_connect("localhost:3306","root","");
+$con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
 {
 	die("Could not connect mysql".mysql_error());
 }
 
-mysql_select_db("test1", $con);
+mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$isInsert=mysql_query("INSERT INTO SCORE (USERID,SCORES,VOL,LEVEL,CATEGORY) VALUES ('".$qUser."',".$qScore.",".$qVol.",".$qLv.",".$qType.")",$con);
+$isInsert=mysql_query("INSERT INTO SCORE (USERID,SCORES,UNIQUEID) VALUES ('".$qUser."',".$qScore.",".$qid.")",$con);
 if ($isInsert)
 {
 	echo "Successfully insert!";

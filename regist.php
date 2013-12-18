@@ -23,13 +23,13 @@ $qID=substr_replace($urlquery[0],'',0,3);
 $qPW=substr_replace($urlquery[1],'',0,3);
 $qName=substr_replace($urlquery[2],'',0,5);
 
-$con=mysql_connect("localhost:3306","root","");
+$con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
 {
 	die("Could not connect mysql".mysql_error());
 }
 
-mysql_select_db("test1", $con);
+mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
 $haveuserid=mysql_query("SELECT USERID FROM USER WHERE USERID='".$qID."'",$con);
 if (mysql_num_rows($haveuserid))

@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-//url:rank.php?user=xxx&vol=xx&lv=xx&type=xx
+//url:rank.php?user=xxx&id=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -12,26 +12,21 @@ $queryall=explode('?',$geturl);
 $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
 
 $qUser=substr_replace($urlquery[0],'',0,5);
-$qVol=substr_replace($urlquery[1],'',0,4);
-$qLv=substr_replace($urlquery[2],'',0,3);
-$qType=substr_replace($urlquery[3],'',0,5);
+$qid=substr_replace($urlquery[1],'',0,3);
 
-$con=mysql_connect("localhost:3306","root","");
+$con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
 {
 	die("Could not connect mysql".mysql_error());
 }
 
-mysql_select_db("test1", $con);
+mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
 
 //查询前五名
 $result=mysql_query("SELECT UserID, Scores
 						FROM SCORE
-						WHERE CATEGORY =0
-						AND VOL =".$qVol."
-						AND LEVEL =".$qLv."
-						AND CATEGORY = ".$qType."
+						WHERE UNIQUEID = ".$qid."
 						ORDER BY SCORES DESC 
 						LIMIT 0 , 5",$con);
 $jsonwithdot='';
@@ -51,10 +46,7 @@ $selfrank=mysql_query("SELECT COUNT( * ) COUNT
 						FROM (
 						SELECT UserID, Scores
 						FROM SCORE
-						WHERE category =0
-						AND VOL =".$qVol."
-						AND LEVEL =".$qLv."
-						AND CATEGORY = ".$qType."
+						WHERE UNIQUEID = ".$qid."
 						AND SCORES > ( 
 						SELECT SCORES
 						FROM SCORE
