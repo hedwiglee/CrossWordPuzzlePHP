@@ -4,14 +4,15 @@
 </head>
 <body>
 <?php
-//url:playboard.php?id=xx
+//url:playboard.php?vol=xx&lv=xx
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
 $queryall=explode('?',$geturl);
 $urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
 
-$qID=substr_replace($urlquery[0],'',0,3);
+$qVol=substr_replace($urlquery[0],'',0,4);
+$qLv=substr_replace($urlquery[1],'',0,3);
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
@@ -22,13 +23,14 @@ if (!$con)
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
 
-$result=mysql_query("SELECT JSONDATA
-						FROM PLAYBOARD
-						WHERE UNIQUEID=".$qID , $con);
+$result=mysql_query("SELECT UniqueID, Locked, Star, JsonData
+						FROM playboard
+						WHERE VolID =".$qVol."
+						AND Level =".$qLv , $con);
 $jsonwithdot='';
 while($row = mysql_fetch_array($result))
 {
-  $arr=array('JSONDATA'=>$row['JSONDATA']);
+  $arr=array('id'=>$row['UniqueID'],'lock'=>$row['Locked'],'star'=>$row['Star'],'jsondata'=>$row['JsonData']);
   $jsonstr=json_encode($arr);
   $jsonwithdot=$jsonwithdot.preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $jsonstr).",";
 } 

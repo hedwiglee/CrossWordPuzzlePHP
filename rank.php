@@ -47,10 +47,11 @@ $selfrank=mysql_query("SELECT COUNT( * ) COUNT
 						SELECT UserID, Scores
 						FROM SCORE
 						WHERE UNIQUEID = ".$qid."
-						AND SCORES > ( 
+						AND SCORES >= ( 
 						SELECT SCORES
 						FROM SCORE
-						WHERE USERID =  '".$qUser."' ) 
+						WHERE USERID =  '".$qUser."' 
+						AND UNIQUEID = ".$qid.") 
 						ORDER BY SCORES DESC
 						) AS a",$con);
 while($rankrow = mysql_fetch_array($selfrank))

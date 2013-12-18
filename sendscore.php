@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- TemplateBeginEditable name="doctitle" -->
-<title>无标题文档</title>
+<title></title>
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
@@ -28,19 +28,33 @@ if (!$con)
 {
 	die("Could not connect mysql".mysql_error());
 }
-
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$isInsert=mysql_query("INSERT INTO SCORE (USERID,SCORES,UNIQUEID) VALUES ('".$qUser."',".$qScore.",".$qid.")",$con);
-if ($isInsert)
+$haveone=mysql_query("SELECT USERID,UNIQUEID FROM SCORE WHERE USERID='".$qUser."' AND UNIQUEID=".$qid."",$con);
+if (mysql_num_rows($haveone))
 {
-	echo "Successfully insert!";
+	$isupdate=mysql_query("UPDATE SCORE SET SCORES=".$qScore." WHERE USERID='".$qUser."' AND UNIQUEID=".$qid."",$con);
+	if ($isupdate)
+	{
+		echo "Successfully insert!";
+	}
+	else
+	{
+		echo "Error!";
+	}
 }
 else
 {
-	echo "Error!";
+	$isInsert=mysql_query("INSERT INTO SCORE (USERID,SCORES,UNIQUEID) VALUES ('".$qUser."',".$qScore.",".$qid.")",$con);
+	if ($isInsert)
+	{
+		echo "Successfully insert!";
+	}
+	else
+	{
+		echo "Error!";
+	}
 }
-
 mysql_close($con);
 
 ?>

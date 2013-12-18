@@ -13,21 +13,15 @@ if (!$con)
 
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$result=mysql_query("SELECT A.Vol, A.Level, A.StartTime
-						FROM playboard A, (
-						SELECT Vol, MAX( Level ) max_level
-						FROM playboard
-						GROUP BY Vol
-						)B
-						WHERE A.Vol = B.Vol
-						AND A.Level = B.max_level",$con);
+$result=mysql_query("SELECT VolName,OpenDate,LevelNums,VolID 
+					FROM vols ",$con);
 $jsonwithdot='';
 echo "{";
 while($row = mysql_fetch_array($result))
 {
-  $arr=array('Vol'=>$row['Vol'],'LvNum'=>$row['Level'],'STime'=>$row['StartTime']);
+  $arr=array('name'=>$row['VolName'],'open_date'=>$row['OpenDate'],'amount_of_levels'=>$row['LevelNums'],'vol_no'=>$row['VolID']);
   $jsonstr=json_encode($arr);
-  $jsonwithdot=$jsonwithdot.$jsonstr.",";
+  $jsonwithdot=$jsonwithdot.preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $jsonstr).",";
 } 
 echo substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
 echo "}";
