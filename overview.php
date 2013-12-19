@@ -1,10 +1,6 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
 <?php
 //url:overview.php
+header("Content-type: text/html; charset=utf-8"); 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
 {
@@ -28,6 +24,3 @@ echo "]";
 mysql_close($con);
 
 ?>
-
-</body>
-</html>

@@ -1,10 +1,6 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
 <?php
 //url:playboard.php?vol=xx&lv=xx
+header("Content-type: text/html; charset=utf-8"); 
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -42,6 +38,3 @@ echo "]";
 mysql_close($con);
 
 ?>
-
-</body>
-</html>

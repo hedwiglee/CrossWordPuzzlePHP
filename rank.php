@@ -1,10 +1,6 @@
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-</head>
-<body>
 <?php
 //url:rank.php?user=xxx&id=xx
+header("Content-type: text/html; charset=utf-8"); 
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -62,6 +58,3 @@ while($rankrow = mysql_fetch_array($selfrank))
 mysql_close($con);
 
 ?>
-
-</body>
-</html>

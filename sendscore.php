@@ -1,18 +1,6 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<!-- TemplateBeginEditable name="doctitle" -->
-<title></title>
-<!-- TemplateEndEditable -->
-<!-- TemplateBeginEditable name="head" -->
-<!-- TemplateEndEditable -->
-</head>
-
-<body>
-
 <?php
 //sendscore.php?user=xx&score=xx&id=xx
+header("Content-type: text/html; charset=utf-8"); 
 $URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $geturl=str_replace('.html','',$URL);
 
@@ -58,6 +46,3 @@ else
 mysql_close($con);
 
 ?>
-
-</body>
-</html>
