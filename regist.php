@@ -31,14 +31,14 @@ if (!$con)
 
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$haveuserid=mysql_query("SELECT USERID FROM USER WHERE USERID='".$qID."'",$con);
+$haveuserid=mysql_query("SELECT UserID FROM user WHERE UserID='".$qID."'",$con);
 if (mysql_num_rows($haveuserid))
 {
 	echo "Username exists!";
 }
 else
 {
-	$insert=mysql_query("INSERT INTO USER (UserID,PassWord,UserName) VALUES ('".$qID."','".$qPW."','".$qName."')",$con);
+	$insert=mysql_query("INSERT INTO user (UserID,PassWord,UserName) VALUES ('".$qID."','".$qPW."','".$qName."')",$con);
 	if ($insert)
 	{
 		echo "Successfully insert!";

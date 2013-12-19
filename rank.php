@@ -25,12 +25,12 @@ mysql_query("SET NAMES UTF8",$con);
 
 //查询前五名
 $result=mysql_query("SELECT UserID, Scores
-						FROM SCORE
-						WHERE UNIQUEID = ".$qid."
-						ORDER BY SCORES DESC 
+						FROM score
+						WHERE UniqueID = ".$qid."
+						ORDER BY Scores DESC 
 						LIMIT 0 , 5",$con);
 $jsonwithdot='';
-echo "{top:[";
+echo "[{top:[";
 while($row = mysql_fetch_array($result))
 {
   $arr=array('ID'=>$row['UserID'],'SCORE'=>$row['Scores']);
@@ -45,18 +45,18 @@ echo "],";
 $selfrank=mysql_query("SELECT COUNT( * ) COUNT
 						FROM (
 						SELECT UserID, Scores
-						FROM SCORE
-						WHERE UNIQUEID = ".$qid."
-						AND SCORES >= ( 
-						SELECT SCORES
-						FROM SCORE
-						WHERE USERID =  '".$qUser."' 
-						AND UNIQUEID = ".$qid.") 
-						ORDER BY SCORES DESC
+						FROM score
+						WHERE UniqueID = ".$qid."
+						AND Scores >= ( 
+						SELECT Scores
+						FROM score
+						WHERE UserID =  '".$qUser."' 
+						AND UniqueID = ".$qid.") 
+						ORDER BY Scores DESC
 						) AS a",$con);
 while($rankrow = mysql_fetch_array($selfrank))
 {
-  echo "rank:".$rankrow['COUNT']."}";
+  echo "rank:".$rankrow['COUNT']."}]";
 }
 
 mysql_close($con);

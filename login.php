@@ -22,7 +22,7 @@ if (!$con)
 
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$result=mysql_query("SELECT UserID,PassWord FROM USER WHERE UserID='".$qID."'",$con);
+$result=mysql_query("SELECT UserID,PassWord FROM user WHERE UserID='".$qID."'",$con);
 if ($result!="")
 {
 	if (!mysql_num_rows($result))

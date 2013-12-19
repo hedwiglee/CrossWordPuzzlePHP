@@ -30,10 +30,10 @@ if (!$con)
 }
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
-$haveone=mysql_query("SELECT USERID,UNIQUEID FROM SCORE WHERE USERID='".$qUser."' AND UNIQUEID=".$qid."",$con);
+$haveone=mysql_query("SELECT UserID,UniqueID FROM score WHERE UserID='".$qUser."' AND UniqueID=".$qid."",$con);
 if (mysql_num_rows($haveone))
 {
-	$isupdate=mysql_query("UPDATE SCORE SET SCORES=".$qScore." WHERE USERID='".$qUser."' AND UNIQUEID=".$qid."",$con);
+	$isupdate=mysql_query("UPDATE score SET Scores=".$qScore." WHERE UserID='".$qUser."' AND UniqueID=".$qid."",$con);
 	if ($isupdate)
 	{
 		echo "Successfully insert!";
@@ -45,7 +45,7 @@ if (mysql_num_rows($haveone))
 }
 else
 {
-	$isInsert=mysql_query("INSERT INTO SCORE (USERID,SCORES,UNIQUEID) VALUES ('".$qUser."',".$qScore.",".$qid.")",$con);
+	$isInsert=mysql_query("INSERT INTO score (UserID,Scores,UniqueID) VALUES ('".$qUser."',".$qScore.",".$qid.")",$con);
 	if ($isInsert)
 	{
 		echo "Successfully insert!";

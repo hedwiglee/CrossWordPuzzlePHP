@@ -28,6 +28,7 @@ $result=mysql_query("SELECT UniqueID, Locked, Star, JsonData
 						WHERE VolID =".$qVol."
 						AND Level =".$qLv , $con);
 $jsonwithdot='';
+echo "[";
 while($row = mysql_fetch_array($result))
 {
   $arr=array('id'=>$row['UniqueID'],'lock'=>$row['Locked'],'star'=>$row['Star'],'jsondata'=>$row['JsonData']);
@@ -36,6 +37,8 @@ while($row = mysql_fetch_array($result))
 } 
 $jsonwith=substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
 echo str_replace(' ','',str_replace('\"','"',str_replace('\n','',$jsonwith)));
+
+echo "]";
 mysql_close($con);
 
 ?>
