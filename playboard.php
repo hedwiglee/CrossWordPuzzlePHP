@@ -1,14 +1,8 @@
 <?php
 //url:playboard.php?vol=xx&lv=xx
 header("Content-type: text/html; charset=utf-8"); 
-$URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$geturl=str_replace('.html','',$URL);
-
-$queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
-
-$qVol=substr_replace($urlquery[0],'',0,4);
-$qLv=substr_replace($urlquery[1],'',0,3);
+$qLv=$_GET["lv"];
+$qVol=$_GET["vol"];
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
@@ -33,7 +27,7 @@ while($row = mysql_fetch_array($result))
   $jsonwithdot=$jsonwithdot.preg_replace("#\\\u([0-9a-f]{4})#ie", "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))", $jsonstr).",";
 } 
 $jsonwith=substr($jsonwithdot,0,strlen($jsonwithdot)-1);//去掉最后一个逗号
-echo str_replace(' ','',str_replace('\"','"',str_replace('\n','',$jsonwith)));
+echo str_replace(']"',']',str_replace('"[','[',str_replace(' ','',str_replace('\"','"',str_replace('\n','',$jsonwith)))));
 mysql_close($con);
 
 ?>

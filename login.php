@@ -1,14 +1,8 @@
 <?php
 //url:login.php?id=XXX&pw=XXX
 header("Content-type: text/html; charset=utf-8"); 
-$URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$geturl=str_replace('.html','',$URL);
-
-$queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
-
-$qID=substr_replace($urlquery[0],'',0,3);
-$qPW=substr_replace($urlquery[1],'',0,3);
+$qID=$_GET["id"];
+$qPW=$_GET["pw"];
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)

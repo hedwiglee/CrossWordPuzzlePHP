@@ -1,15 +1,9 @@
 <?php
 //sendscore.php?user=xx&score=xx&id=xx
 header("Content-type: text/html; charset=utf-8"); 
-$URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$geturl=str_replace('.html','',$URL);
-
-$queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
-
-$qUser=substr_replace($urlquery[0],'',0,5);
-$qScore=substr_replace($urlquery[1],'',0,6);
-$qid=substr_replace($urlquery[2],'',0,3);
+$qUser=$_GET["user"];
+$qScore=$_GET["score"];
+$qid=$_GET["id"];
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)

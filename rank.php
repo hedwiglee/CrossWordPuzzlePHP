@@ -1,14 +1,8 @@
 <?php
 //url:rank.php?user=xxx&vol=xx
 header("Content-type: text/html; charset=utf-8"); 
-$URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$geturl=str_replace('.html','',$URL);
-
-$queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); //将问号后面的内容提取出来并用“&”分隔
-
-$qUser=substr_replace($urlquery[0],'',0,5);
-$qid=substr_replace($urlquery[1],'',0,4);
+$qUser=$_GET["user"];
+$qid=$_GET["vol"];
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)

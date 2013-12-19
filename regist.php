@@ -1,15 +1,9 @@
 <?php
 //regist.php?id=xxx&pw=xxx&name=xxx
 header("Content-type: text/html; charset=utf-8"); 
-$URL=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$geturl=str_replace('.html','',$URL);
-
-$queryall=explode('?',$geturl);
-$urlquery = explode('&',$queryall[1]); 
-
-$qID=substr_replace($urlquery[0],'',0,3);
-$qPW=substr_replace($urlquery[1],'',0,3);
-$qName=substr_replace($urlquery[2],'',0,5);
+$qID=$_GET["id"];
+$qPW=$_GET["pw"];
+$qName=$_GET["name"];
 
 $con=mysql_connect("localhost:3306","root","buptmitc");
 if (!$con)
