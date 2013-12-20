@@ -18,7 +18,7 @@ $result=mysql_query("SELECT *
 						ORDER BY Scores DESC 
 						LIMIT 0 , 5",$con);
 $jsonwithdot='';
-echo "[{top:[";
+echo "[{\"top\":[";
 while($row = mysql_fetch_array($result))
 {
   $arr=array('ID'=>$row['UserID'],'SCORE'=>(int)$row['Scores']);
@@ -32,13 +32,13 @@ echo "],";
 //查询个人排名
 $selfrank=mysql_query("SELECT COUNT( * ) COUNT
 						FROM  `scoreoffline` 
-						WHERE Scores >= ( 
+						WHERE Scores > ( 
 						SELECT Scores
 						FROM scoreoffline
 						WHERE UserID =  '".$qUser."')",$con);
 while($rankrow = mysql_fetch_array($selfrank))
 {
-  echo "rank:".$rankrow['COUNT']."}]";
+  echo "\"rank\":".($rankrow['COUNT']+1)."}]";
 }
 
 mysql_close($con);
