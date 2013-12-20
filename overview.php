@@ -10,7 +10,7 @@ if (!$con)
 mysql_select_db("crosspuzzle", $con);
 mysql_query("SET NAMES UTF8",$con);
 $result=mysql_query("SELECT VolName,OpenDate,LevelNums,VolID 
-					FROM vols ",$con);
+					FROM levelnum ",$con);
 $jsonwithdot='';
 echo "[";
 while($row = mysql_fetch_array($result))
