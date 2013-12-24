@@ -25,7 +25,7 @@ $result=mysql_query("SELECT a.UserID, SUM( a.Scores ) sum
 						ORDER BY sum DESC 
 						LIMIT 0 , 5",$con);
 $jsonwithdot='';
-echo "[{\"top\":[";
+echo "{\"top\":[";
 while($row = mysql_fetch_array($result))
 {
   $arr=array('ID'=>$row['UserID'],'SCORE'=>(int)$row['sum']);
@@ -47,7 +47,7 @@ $selfrank=mysql_query("SELECT COUNT(*) COUNT
 						AND VolID =".$qid,$con);
 while($rankrow = mysql_fetch_array($selfrank))
 {
-  echo "\"rank\":".($rankrow['COUNT']+1)."}]";
+  echo "\"rank\":".($rankrow['COUNT']+1)."}";
 }
 
 mysql_close($con);
