@@ -28,7 +28,7 @@ body {
 #center {
 	width:60%;
 	text-align:left;
-	margin-left:40%;
+	margin-left:35%;
 	padding-top:50px;
 }
 	
@@ -48,3 +48,8 @@ body {
 		height:20px;
 		border:none;
 	}
+	
+#echo {
+	text-align:center;
+	margin-top:50px;
+}

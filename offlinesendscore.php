@@ -1,5 +1,5 @@
 <?php
-//offlinesendscore.php?user=xx&score=xx
+//sendscore.php?user=xx&score=xx
 header("Content-type: text/html; charset=utf-8"); 
 $qUser=$_GET["user"];
 $qScore=$_GET["score"];
